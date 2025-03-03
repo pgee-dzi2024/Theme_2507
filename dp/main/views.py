@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import *
 
 
 def index0(request):
@@ -14,7 +15,9 @@ def index1(request):
 
 
 def index(request):
-    return render(request, 'main/index.html')
+    articles = Article.objects.all()
+    params = {'articles': articles, }
+    return render(request, 'main/index.html', params)
 
 
 def contact(request):
@@ -25,5 +28,7 @@ def about(request):
     return render(request, 'main/about.html')
 
 
-def post(request):
-    return render(request, 'main/post.html')
+def post(request, art_id):
+    article = Article.objects.get(id=art_id)
+
+    return render(request, 'main/post.html', {'article': article, })

@@ -30,5 +30,4 @@ def about(request):
 
 def post(request, art_id):
     article = Article.objects.get(id=art_id)
-
     return render(request, 'main/post.html', {'article': article, })

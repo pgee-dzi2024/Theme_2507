@@ -1,0 +1,148 @@
+План на дипломния проект
+Титулна страница (1 страница)
+Наименование на училището
+Населено място
+Тема на дипломния проект
+Имена на ученика
+Професия и специалност
+Име на ръководителя / консултанта
+Съдържание (1 страница)
+Списък с главите и подглавите, с посочени страници
+Увод (1-2 страници)
+Кратко описание на основните цели и резултати
+Обосновка на избора на тема
+Основна част (20-25 страници)
+Представяне на Djang (3-4 страници)
+
+История и развитие на Djang
+Основни характеристики
+Разпределение на компонентите
+Концепция и общи принципи (4-5 страници)
+
+MVC/MVT архитектура
+DOM обработка
+URL конфигурация
+Структура на изгражданите приложения (3-4 страници)
+
+Основни модули и пакетиране
+Структура на проектите в Djang
+Описание и анализ на известни решения (4-5 страници)
+
+Сравнение с други фреймуъркове
+Примери на приложения, разработени с Djang
+Избор на технологии, алгоритми и програмни решения (3-4 страници)
+
+Причини за избор на Djang
+Алтернативни решения и анализ на техните предимства и недостатъци
+Приноси на дипломния проект (2-3 страници)
+
+Спецификация на задачите, които са успешно решени
+Мерки за оценка на успеха
+Заключение (1-2 страници)
+Изводи от проекта
+Предложения за доразвиване на проекта
+Възможности за неговото приложение
+Списък на използваната литература (1 страница)
+Форматиран списък на всички използвани източници по азбучен ред
+Приложения (по желание, 1-3 страници)
+Документация или допълнителна информация, която не е включена в основния текст
+Общо: 30-35 страници
+Този план предлага структурирана подход с детайлна разбивка на всяка част от дипломния проект. Можеш да коригираш количествата страници според нуждите и изискванията на проекта. Ако имаш нужда от допълнителна информация или насоки за конкретни секции, не се колебай да попиташ!
+
+
+
+
+
+from django.db import models
+
+class Post(models.Model):
+    title = models.CharField(max_length=200)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.title
+        ///////////////////////
+
+
+
+       from django.shortcuts import render
+from .models import Post
+
+def post_list(request):
+    posts = Post.objects.all()
+    return render(request, 'blog/post_list.html', {'posts': posts})
+
+/////////////////////////////////////
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog Posts</title>
+</head>
+<body>
+    <h1>Blog Posts</h1>
+    <ul>
+    {% for post in posts %}
+        <li>{{ post.title }} - {{ post.created_at }}</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>
+//////////////////
+
+
+
+
+
+from django.urls import path
+from . import views
+
+urlpatterns = [
+    path('', views.post_list, name='post_list'),
+]
+///////////
+
+from django.contrib import admin
+from .models import Post
+
+admin.site.register(Post)
+
+
+///////////
+
+from django import forms
+from .models import Post
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content']
+        ///////////
+
+
+        from django import forms
+from .models import Post
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ['title', 'content']
+        //////////////////////
+
+        # Създаване на нова публикация
+post = Post(title="New Post", content="This is the content")
+post.save()
+////////////////////////////
+
+
+from django.db import models
+
+class Comment(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+

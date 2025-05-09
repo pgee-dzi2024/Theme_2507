@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Време на генериране: 13 март 2025 в 21:51
+-- Време на генериране: 26 апр 2025 в 21:29
 -- Версия на сървъра: 10.4.32-MariaDB
 -- Версия на PHP: 8.2.12
 
@@ -93,7 +93,11 @@ INSERT INTO `auth_permission` (`id`, `name`, `content_type_id`, `codename`) VALU
 (29, 'Can add Съобщение', 8, 'add_message'),
 (30, 'Can change Съобщение', 8, 'change_message'),
 (31, 'Can delete Съобщение', 8, 'delete_message'),
-(32, 'Can view Съобщение', 8, 'view_message');
+(32, 'Can view Съобщение', 8, 'view_message'),
+(33, 'Can add Коментар', 9, 'add_comment'),
+(34, 'Can change Коментар', 9, 'change_comment'),
+(35, 'Can delete Коментар', 9, 'delete_comment'),
+(36, 'Can view Коментар', 9, 'view_comment');
 
 -- --------------------------------------------------------
 
@@ -120,7 +124,7 @@ CREATE TABLE `auth_user` (
 --
 
 INSERT INTO `auth_user` (`id`, `password`, `last_login`, `is_superuser`, `username`, `first_name`, `last_name`, `email`, `is_staff`, `is_active`, `date_joined`) VALUES
-(1, 'pbkdf2_sha256$600000$3jeCwn1l42FigYUo3eDqn6$9PaHwPqP6VbUjVq9D5fPC3UsWl1f3boYInKDrwEXQyQ=', '2025-03-03 19:27:12.222574', 1, 'dzi_25', '', '', '', 1, 1, '2025-03-03 19:26:24.685623');
+(1, 'pbkdf2_sha256$600000$3jeCwn1l42FigYUo3eDqn6$9PaHwPqP6VbUjVq9D5fPC3UsWl1f3boYInKDrwEXQyQ=', '2025-04-26 16:37:09.248175', 1, 'dzi_25', '', '', '', 1, 1, '2025-03-03 19:26:24.685623');
 
 -- --------------------------------------------------------
 
@@ -196,6 +200,7 @@ INSERT INTO `django_content_type` (`id`, `app_label`, `model`) VALUES
 (4, 'auth', 'user'),
 (5, 'contenttypes', 'contenttype'),
 (7, 'main', 'article'),
+(9, 'main', 'comment'),
 (8, 'main', 'message'),
 (6, 'sessions', 'session');
 
@@ -236,7 +241,8 @@ INSERT INTO `django_migrations` (`id`, `app`, `name`, `applied`) VALUES
 (17, 'auth', '0012_alter_user_first_name_max_length', '2025-03-03 18:36:43.528327'),
 (18, 'sessions', '0001_initial', '2025-03-03 18:36:43.584383'),
 (19, 'main', '0001_initial', '2025-03-03 19:02:19.678357'),
-(20, 'main', '0002_article_picture', '2025-03-03 19:13:15.256975');
+(20, 'main', '0002_article_picture', '2025-03-03 19:13:15.256975'),
+(21, 'main', '0003_comment_delete_message_remove_article_picture_and_more', '2025-04-26 16:35:52.449475');
 
 -- --------------------------------------------------------
 
@@ -255,6 +261,7 @@ CREATE TABLE `django_session` (
 --
 
 INSERT INTO `django_session` (`session_key`, `session_data`, `expire_date`) VALUES
+('eamgm0l2g7klom83ph41tf9uw35oifvn', '.eJxVjMsOwiAQRf-FtSEMDAVcuvcbyPCSqoGktCvjv2uTLnR7zzn3xTxta_XbyIufEzszYKffLVB85LaDdKd26zz2ti5z4LvCDzr4taf8vBzu30GlUb91IIJsEREcWKUKlhisSKSCiCANGilEmdDZ7FApBI2E1jkTJOlJaWDvD8hCNns:1u8iWb:XeGdMCG43M91IpgTxXMDaK0lxWVKXCFZGoYvP4ScS4o', '2025-05-10 16:37:09.253445'),
 ('t13upms8knfl039czmf5b107gz77mo74', '.eJxVjMsOwiAQRf-FtSEMDAVcuvcbyPCSqoGktCvjv2uTLnR7zzn3xTxta_XbyIufEzszYKffLVB85LaDdKd26zz2ti5z4LvCDzr4taf8vBzu30GlUb91IIJsEREcWKUKlhisSKSCiCANGilEmdDZ7FApBI2E1jkTJOlJaWDvD8hCNns:1tpBRY:6Ur9dmjaDkcXXjYsDcpfG9owEXkUie11lJrRU6eB1TE', '2025-03-17 19:27:12.225597');
 
 -- --------------------------------------------------------
@@ -268,31 +275,28 @@ CREATE TABLE `main_article` (
   `title` varchar(200) NOT NULL,
   `content` longtext NOT NULL,
   `author` varchar(50) NOT NULL,
-  `published` date NOT NULL,
-  `picture` varchar(100) NOT NULL
+  `published` date NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Схема на данните от таблица `main_article`
 --
 
-INSERT INTO `main_article` (`id`, `title`, `content`, `author`, `published`, `picture`) VALUES
-(1, 'Статия 1', 'Текст нТекст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. а статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията.', 'Аз', '2025-03-03', 'images/Picture2.png'),
-(2, 'Статия 2', 'Текст на статия 2 Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2', 'г-ца Мариела Стипцова', '2025-03-04', 'images/Picture1_CwjTKcq.png');
+INSERT INTO `main_article` (`id`, `title`, `content`, `author`, `published`) VALUES
+(1, 'Статия 1', 'Текст нТекст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. а статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията. Текст на статията.', 'Аз', '2025-03-03'),
+(2, 'Статия 2', 'Текст на статия 2 Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2Текст на статия 2', 'г-ца Мариела Стипцова', '2025-03-04');
 
 -- --------------------------------------------------------
 
 --
--- Структура на таблица `main_message`
+-- Структура на таблица `main_comment`
 --
 
-CREATE TABLE `main_message` (
+CREATE TABLE `main_comment` (
   `id` bigint(20) NOT NULL,
-  `name` varchar(200) NOT NULL,
-  `email` varchar(200) NOT NULL,
-  `phone` varchar(200) NOT NULL,
-  `message` longtext NOT NULL,
-  `published` date NOT NULL
+  `text` longtext NOT NULL,
+  `author` varchar(50) NOT NULL,
+  `article_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -379,10 +383,11 @@ ALTER TABLE `main_article`
   ADD PRIMARY KEY (`id`);
 
 --
--- Индекси за таблица `main_message`
+-- Индекси за таблица `main_comment`
 --
-ALTER TABLE `main_message`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `main_comment`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `main_comment_article_id_ef613377_fk_main_article_id` (`article_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -404,7 +409,7 @@ ALTER TABLE `auth_group_permissions`
 -- AUTO_INCREMENT for table `auth_permission`
 --
 ALTER TABLE `auth_permission`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `auth_user`
@@ -434,13 +439,13 @@ ALTER TABLE `django_admin_log`
 -- AUTO_INCREMENT for table `django_content_type`
 --
 ALTER TABLE `django_content_type`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `django_migrations`
 --
 ALTER TABLE `django_migrations`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `main_article`
@@ -449,9 +454,9 @@ ALTER TABLE `main_article`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `main_message`
+-- AUTO_INCREMENT for table `main_comment`
 --
-ALTER TABLE `main_message`
+ALTER TABLE `main_comment`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
@@ -491,6 +496,12 @@ ALTER TABLE `auth_user_user_permissions`
 ALTER TABLE `django_admin_log`
   ADD CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   ADD CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`);
+
+--
+-- Ограничения за таблица `main_comment`
+--
+ALTER TABLE `main_comment`
+  ADD CONSTRAINT `main_comment_article_id_ef613377_fk_main_article_id` FOREIGN KEY (`article_id`) REFERENCES `main_article` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

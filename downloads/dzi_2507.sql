@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1
--- Време на генериране: 26 апр 2025 в 21:29
+-- Време на генериране: 25 май 2025 в 21:20
 -- Версия на сървъра: 10.4.32-MariaDB
 -- Версия на PHP: 8.2.12
 
@@ -300,6 +300,14 @@ CREATE TABLE `main_comment` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
+-- Схема на данните от таблица `main_comment`
+--
+
+INSERT INTO `main_comment` (`id`, `text`, `author`, `article_id`) VALUES
+(1, 'Много интересна статия', 'ИВан Димитров', 1),
+(2, 'Някакъв коментар към тази статия', 'Петър Иванов', 1);
+
+--
 -- Indexes for dumped tables
 --
 
@@ -457,7 +465,7 @@ ALTER TABLE `main_article`
 -- AUTO_INCREMENT for table `main_comment`
 --
 ALTER TABLE `main_comment`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Ограничения за дъмпнати таблици
